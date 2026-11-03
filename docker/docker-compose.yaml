@@ -1,0 +1,15 @@
+services:
+  postgis:
+    image: postgis/postgis:16-3.4
+    container_name: sentinel-postgis
+    environment:
+      POSTGRES_USER: sentinel
+      POSTGRES_PASSWORD: sentinel
+      POSTGRES_DB: sentinel
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

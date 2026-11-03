@@ -1,0 +1,10 @@
+# Environnements and secrets files
+.env
+
+# Python environnement 
+env_312
+
+# Cache Python
+__pycache__/
+*.py[cod]
+*$py.class
