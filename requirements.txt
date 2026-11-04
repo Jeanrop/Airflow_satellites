@@ -1,0 +1,6 @@
+pystac-client 
+requests 
+shapely
+python-dotenv
+httpx 
+asyncio
