@@ -8,3 +8,6 @@ env_312
 __pycache__/
 *.py[cod]
 *$py.class
+
+# Documentation
+copernicus_documentation/*
