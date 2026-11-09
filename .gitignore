@@ -11,3 +11,6 @@ __pycache__/
 
 # Documentation
 copernicus_documentation/*
+
+# Data
+data

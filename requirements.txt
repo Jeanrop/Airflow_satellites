@@ -4,3 +4,5 @@ shapely
 python-dotenv
 httpx 
 asyncio
+rasterio
+psycopg[binary]
