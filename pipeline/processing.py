@@ -3,6 +3,9 @@ import os
 import numpy as np
 import rasterio
 
+import logging
+
+logger = logging.getLogger(__name__)
 
 def compute_ndvi(raw_path: str, ndvi_path: str) -> dict:
     """Compute NDVI from raw B04/B08, write it as GeoTIFF and return its stats."""
@@ -24,7 +27,7 @@ def compute_ndvi(raw_path: str, ndvi_path: str) -> dict:
 
     # --- SAFETY CHECK FOR EMPTY / CLOUDY SCENES ---
     if valid.size == 0:
-        print(f"Warning: No valid pixels found in {raw_path}. Scene may be entirely cloudy or masked out.")
+        logger.error(f"No valid pixels found in {raw_path}. Raw bands may be empty (all zeros).")
         return {
             "ndvi_mean": float("nan"),
             "ndvi_min": float("nan"),

@@ -14,3 +14,9 @@ copernicus_documentation/*
 
 # Data
 data
+
+# Journal log
+*.log
+
+# Small script to test things
+test

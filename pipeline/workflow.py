@@ -13,21 +13,32 @@ import os
 from copernicus_api import orchestrate_sentinel_pipeline
 from db import insert_run
 from processing import compute_ndvi
+from datetime import datetime, timedelta, timezone
+
+import logging
+from logger import setup_logging
+
+logger = logging.getLogger(__name__)
 
 async def main() -> None:
     # Geometrical parameters (ex: Forêt de Fontainebleau)
     bbox = [2.55, 48.33, 2.78, 48.48]
-    datetime_range = "2026-05-01T00:00:00Z/2026-06-01T23:59:59Z"
+        # Time window: last 7 days up to now
+    now = datetime.now(timezone.utc)
+    start = now - timedelta(days=30)
+    datetime_range = f"{start:%Y-%m-%dT%H:%M:%SZ}/{now:%Y-%m-%dT%H:%M:%SZ}"
 
-    print("Démarrage du pipeline principal...")
+    setup_logging()
+    logger.info("Démarrage du pipeline principal...")
 
     # Raw B04 / B08 download
     scene = await orchestrate_sentinel_pipeline(
         bbox=bbox,
-        datetime_range=datetime_range
-    )
+        datetime_range=datetime_range,
+        tiles_per_side=1
+    ) 
     if scene is None:
-        print("Le pipeline a rencontré une erreur.")
+        logger.error("An error occured while the pipeline was running")
         return
 
     # NDVI processing
@@ -37,7 +48,7 @@ async def main() -> None:
     # Database insertion
     insert_run(scene, ndvi_path, stats, bbox)
 
-    print("Pipeline exécuté avec succès de bout en bout !")
+    logger.info("Success of the pipeline")
 
 if __name__ == "__main__":
     asyncio.run(main())
